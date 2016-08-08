@@ -1,0 +1,27 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@page import="kr.ac.sungkyul.mysite.vo.UsersVo" %>
+
+ <%
+ 	UsersVo authUser = (UsersVo)session.getAttribute("authUser");
+ %>
+
+<div id="header">
+	<h1>MySite</h1>
+		<ul>
+			<%
+				if(authUser == null){
+			%>
+			<li><a href="/mysite/users?a=loginform">로그인</a><li>
+			<li><a href="/mysite/users?a=joinform">회원가입</a><li>
+			<%
+				} else {
+			%>
+			<li><a href="/mysite/users?a=modifyform">회원정보수정</a><li>
+			<li><a href="/mysite/users?a=logout">로그아웃</a><li>
+			<li><%=authUser.getName()%>님 안녕하세요 ^^;</li>
+			<%
+				}
+			%>
+		</ul>
+</div>  
