@@ -184,7 +184,7 @@ public class GuestbookDao {
 				if(pstmt != null){
 					pstmt.close();
 				}
-				if(conn != null){
+				if(conn != null){ 
 					conn.close();
 				}
 			} catch (SQLException e) {

@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!doctype html>
 <html>
 <head>
@@ -9,7 +12,7 @@
 <body>
 	<div id="container">
 	<!-- 여러페이지에서 중복되는 부분을 별개의 jsp로 만듬-->
-	<jsp:include page="/WEB-INF/views/include/header.jsp"/>
+	<c:import url='/WEB-INF/views/include/header.jsp'/>
 		<div id="wrapper">
 			<div id="content">
 				<div id="site-introduction">
@@ -24,8 +27,8 @@
 				</div>
 			</div>
 		</div>
-		<jsp:include page="/WEB-INF/views/include/navi.jsp"></jsp:include>
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url='/WEB-INF/views/include/navi.jsp'/>
+		<c:import url='/WEB-INF/views/include/footer.jsp'/>
 	</div>
 </body>
 </html>

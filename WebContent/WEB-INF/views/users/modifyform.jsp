@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@page import="kr.ac.sungkyul.mysite.vo.UsersVo"%>
 <%
 	String result = request.getParameter("res");
@@ -9,20 +12,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="/mysite/assets/css/user.css" rel="stylesheet" type="text/css">
-<script>
-	<%
-		if( "success".equals( result ) ) {
-	%>
-		alert( "성공적으로 수정하였습니다." );
-	<%
-		}
-	%>
-</script>
+<c:if test='${"success"== param.res }'>
+	<script>
+			alert( "성공적으로 수정하였습니다." );
+	</script>
+</c:if>
 <title>Insert title here</title>
 </head>
 <body>
 	<div id="container">
-	<jsp:include page="/WEB-INF/views/include/header.jsp"/>
+	<c:import url='/WEB-INF/views/include/header.jsp'/>
 		<div id="content">
 			<div id="user">
 				<form id="join-form" name="modifyForm" method="post" action="/mysite/users">
@@ -51,9 +50,8 @@
 				</form>
 			</div>
 		</div>
-		<jsp:include page="/WEB-INF/views/include/navi.jsp"></jsp:include>
-		
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url='/WEB-INF/views/include/navi.jsp'/>
+		<c:import url='/WEB-INF/views/include/footer.jsp'/>
 	</div>
 </body>
 </html>

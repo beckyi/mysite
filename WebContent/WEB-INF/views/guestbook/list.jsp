@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page import="kr.ac.sungkyul.mysite.vo.GuestbookVo"%>
 <%@page import="kr.ac.sungkyul.mysite.vo.UsersVo" %>
 <%@page import="java.util.List"%>
 <%
-	List<GuestbookVo> list = (List<GuestbookVo>)request.getAttribute("index");
-	UsersVo authUser = (UsersVo)session.getAttribute("authUser");
-
+	pageContext.setAttribute("newLine", "\n"); // JSTL에서 \를 인식 못하기 때문에 \n 이라는 문자를 newLine으로 대체
 %>
 <!doctype html>
 <html>
@@ -16,28 +17,25 @@
 </head>
 <body>
 	<div id="container">
-		<jsp:include page="/WEB-INF/views/include/header.jsp"/>
+		<c:import url='/WEB-INF/views/include/header.jsp'/>
 		<div id="content">
 			<div id="guestbook">
 				<form action="/mysite/gs" method="post">
 					<input type="hidden" name="a" value="insert">
 					<table>
 						<tr>
-							<%
-								if(authUser == null){
-							%>
+							<c:choose>
+							<c:when test='${empty sessionScope.authUser }'>
 							<td>이름</td><td><input type="text" name="name"></td>
 							<td>비밀번호</td><td><input type="password" name="pass"></td>
-							<%
-								} else {
-							%>
-							<td>이름</td><td><%=authUser.getName() %>
-							<input type="hidden" name="name" value="<%=authUser.getName() %>">
-							<input type="hidden" name="pass" value="<%=authUser.getPassword() %>">
+							</c:when>
+							<c:otherwise>
+							<td>이름</td><td>${authUser.name}
+							<input type="hidden" name="name" value="${authUser.name}">
+							<input type="hidden" name="pass" value="${authUser.password}">
 							</td>
-							<%
-								}
-							%>
+							</c:otherwise>
+							</c:choose>
 						</tr>
 						<tr>
 							<td colspan=4><textarea name="content" id="content"></textarea></td>
@@ -48,37 +46,32 @@
 					</table>
 				</form>
 				<br>
-				<%
-					for(GuestbookVo vo : list){
-				%>
 				<ul>
+					<c:set var='countList' value='${fn:length(list)}'/>
+               		<c:forEach var='vo' items='${list }' varStatus='status'>
 					<li>
 						<table>
 							<tr>
-								<td>[3]</td>
-								<td><%=vo.getName() %></td>
-								<td><%=vo.getRegDate() %></td>
-								<td><a href="/guestbook2/gs?a=deleteform&no=<%=vo.getNo()%>">삭제</a></td>
+								<td>${countList - status.index }</td>
+								<td>${vo.name }</td>
+								<td>${vo.regDate }</td>
+								<td><a href="/mysite/gs?a=deleteform&no=${vo.no}">삭제</a></td>
 							</tr>
 							<tr>
 								<td colspan=4>
-								<%
-									String content = vo.getContent().replace("\n", "<br/>");
-								%>
-								<%= content %>	
+								<!-- String content = vo.getContent().replace("\n", "<br/>"); -->
+								 ${fn:replace(vo.content,  newLine, '<br>')} 
 								</td>
 							</tr>
 						</table>
 						<br>
 					</li>
+					</c:forEach>
 				</ul>
-				<%
-					}
-				%>
 			</div>
 		</div>
-		<jsp:include page="/WEB-INF/views/include/navi.jsp"></jsp:include>
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url='/WEB-INF/views/include/navi.jsp'/>
+		<c:import url='/WEB-INF/views/include/footer.jsp'/>
 	</div>
 </body>
 </html>

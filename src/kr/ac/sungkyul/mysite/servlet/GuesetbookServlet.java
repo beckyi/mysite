@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kr.ac.sungkyul.mysite.dao.GuestbookDao;
 import kr.ac.sungkyul.mysite.vo.GuestbookVo;
+import kr.ac.sungkyul.web.WebUtil;
 
 /**
  * Servlet implementation class GuesetbookServlet
@@ -31,9 +32,6 @@ public class GuesetbookServlet extends HttpServlet {
 
 			GuestbookDao dao = new GuestbookDao();
 			String pass = dao.pass(no);
-
-			System.out.println("db pass: " + pass);
-			System.out.println("pass: " + password);
 
 			if (pass.equals(password)) {
 				dao.delete(no);
@@ -59,15 +57,22 @@ public class GuesetbookServlet extends HttpServlet {
 
 			response.sendRedirect("/mysite/gs");
 
-		} else {
+		} else if ("deleteform".equals(actionName)) {
+			String no = request.getParameter("no");
+
+			request.setAttribute("no", no);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/guestbook/deleteform.jsp"); // request
+			// 연장
+			rd.forward(request, response);
+			
+			//WebUtil.forward("/WEB-INF/views/users/deleteform.jsp", request, response);
+		}else {
 			GuestbookDao dao = new GuestbookDao();
 			List<GuestbookVo> list = dao.getList();
-			for( GuestbookVo vo : list) {
-			System.out.println(vo);
-			}
 
 			// request 범위(scope)에 List 객체를 저장
-			request.setAttribute("index", list);
+			request.setAttribute("list", list);
 
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/guestbook/list.jsp"); // request
 																								// 연장
@@ -76,10 +81,6 @@ public class GuesetbookServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
