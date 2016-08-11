@@ -29,33 +29,47 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
+					<c:set var='countList' value='${fn:length(blist)}'/>
 					<c:forEach var='vo' items='${blist }' varStatus='status'>	
 					<tr>
-						<td>3</td>
-						<td><a href="/mysite/bs?a=viewform">${vo.title}</a></td>
+						<td>${countList - status.index }</td>
+						<td style="text-align:left"><a href="/mysite/bs?a=viewform&r=${vo.no }">${vo.title}</a></td>
 						<td>${vo.userName }</td>
 						<td>${vo.viewCount }</td>
 						<td>${vo.regDate }</td>
-						<td><a href="" class="del">삭제</a></td>
+						<td>
+						<c:choose>
+							<c:when test='${not empty authUser && authUser.no == vo.userNo }'>
+									<a href="/mysite/bs?a=delete&r=${vo.no }" class="del">삭제</a>
+							</c:when>
+								<c:otherwise>
+									&nbsp;
+								</c:otherwise>
+						</c:choose>
+						</td>
 					</tr>
 					</c:forEach>
 				</table>
 				<!-- begin:paging -->
 				<div class="pager">
 					<ul>
+					<c:if test="">
 						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li><a href="">4</a></li>
-						<li><a href="">5</a></li>
+					</c:if>
+					<c:forEach begin='${firstPage }' end='${lastPage }' step='1' var='i'>
+							<li><a href="/mysite/bs?page=${i }">${i }</a></li>
+					</c:forEach>
+					<c:if test="">
 						<li><a href="">▶</a></li>
+					</c:if>
 					</ul>
 				</div>
 				<!-- end:paging -->
 				<div class="bottom">
+					<c:if test ='${not empty sessionScope.authUser }'>
 					<a href="/mysite/bs?a=writeform" id="new-book">글쓰기</a>
-				</div>				
+					</c:if>
+				</div>
 			</div>
 		</div>
 		<c:import url='/WEB-INF/views/include/navi.jsp'/>

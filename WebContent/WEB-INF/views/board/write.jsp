@@ -14,7 +14,7 @@
 		<c:import url='/WEB-INF/views/include/header.jsp'/>
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="/mysite/board">
+				<form class="board-form" method="post" action="/mysite/bs">
 					<input type = "hidden" name = "a" value="write">
 					<table class="tbl-ex">
 						<tr>
@@ -32,7 +32,7 @@
 						</tr>
 					</table>
 					<div class="bottom">
-						<a href="/mysite/board">취소</a>
+						<a href="javascript:history.go(-1);">취소</a>
 						<input type="submit" value="등록">
 					</div>
 				</form>				

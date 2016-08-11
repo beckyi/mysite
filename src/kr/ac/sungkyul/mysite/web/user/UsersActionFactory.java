@@ -27,8 +27,6 @@ public class UsersActionFactory extends ActionFactory {
 			action = new ModifyformAction();
 		} else if ("modify".equals(actionName)){
 			action = new ModifyAction();
-		} else if ("board".equals(actionName)){
-			action = new BoardAction();
 		} else{
 			action = new MainAction();
 		}

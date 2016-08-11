@@ -3,10 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@page import="kr.ac.sungkyul.mysite.vo.UsersVo"%>
-<%
-	String result = request.getParameter("res");
-	UsersVo usersVo = (UsersVo)request.getAttribute("userVo");
-%>
+
+<c:if test='${"success" == param.res }'>
+	<script>
+		alert( "성공적으로 수정하였습니다." );
+	</script>
+</c:if>
 
 <html>
 <head>
@@ -27,24 +29,23 @@
 				<form id="join-form" name="modifyForm" method="post" action="/mysite/users">
 				<input type="hidden" name="a" value="modify"/>
 					<label class="block-label" for="name">이름</label>
-					<input id="name" name="name" type="text" value="<%=usersVo.getName()%>">
+					<input id="name" name="name" type="text" value="${userVo.name }">
 
 					<label class="block-label">패스워드</label>
 					<input name="password" type="password" value="">
 					
 					<fieldset>
 						<legend>성별</legend>
-						<%	if("FEMALE".equals(usersVo.getGender())){ %>
-						<label>여</label> <input type="radio" name="gender" value="FEMALE" checked="checked">
-						<label>남</label> <input type="radio" name="gender" value="MALE">
-						<%
-							} else{
-						%>
-						<label>여</label> <input type="radio" name="gender" value="FEMALE">
-						<label>남</label> <input type="radio" name="gender" value="MALE" checked="checked">
-						<%
-							}
-						%>
+						<c:choose>
+							<c:when test='${"FEMALE" == userVo.gender }'>
+								<label>여</label> <input type="radio" name="gender" value="FEMALE" checked="checked">
+								<label>남</label> <input type="radio" name="gender" value="MALE">
+							</c:when>
+							<c:otherwise>
+								<label>여</label> <input type="radio" name="gender" value="FEMALE">
+								<label>남</label> <input type="radio" name="gender" value="MALE"  checked="checked">
+							</c:otherwise>
+						</c:choose>
 					</fieldset>
 					<input type="submit" value="수정하기">
 				</form>
